@@ -3,22 +3,12 @@ name: test
 on: [push]
 
 jobs:
-  pylint:
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         include:
-          - python: 2.7
-            env:
-              TOXENV: py27
-          - python: 3.6
-            env:
-              TOXENV: py36
           - python: 3.7
-            env:
-              TOXENV: py37
-          - os: osx
-            language: generic
             env:
               TOXENV: py37
     steps:
