@@ -1,0 +1,38 @@
+name: test
+
+on: [push]
+
+jobs:
+  pylint:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - python: 2.7
+            env:
+              TOXENV: py27
+          - python: 3.6
+            env:
+              TOXENV: py36
+          - python: 3.7
+            env:
+              TOXENV: py37
+          - os: osx
+            language: generic
+            env:
+              TOXENV: py37
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python }}
+        env:
+          TOXENV: ${{ matrix.TOXENV }}
+    - name: Install dependencies
+      run:
+        python -m pip install --upgrade pip
+        pip install tox
+    - name: Running tests
+      run:
+        tox
